@@ -6,6 +6,8 @@ version = "0.1.0"
 [deps]
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+ImageCore = "a09fc81d-aa75-5fe9-8630-4744c3626534"
+ImageInTerminal = "d8c32880-2388-543b-8c61-d9f865259254"
 LanguageServer = "2b0e0bc5-e4fd-59b4-8912-456d1b03d8d7"
 MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
 Metal = "dde4c033-4e86-420c-a63e-0dd931031962"
