@@ -92,7 +92,7 @@ for epoch in 1:30
         # Report on train and test, only every 2nd epoch:
         train_acc = simple_accuracy(model, train_data)
         test_acc = simple_accuracy(model, test_data)
-        @info "After epoch = $epoch" loss train_acc test_acc
+        @info "After epoch = $epoch" train_loss train_acc test_acc
     end
 end
 
