@@ -2,7 +2,11 @@
 # This example does not use a GPU, it's small enough not to need one.
 
 using Flux, MLDatasets, Statistics
-using Metal
+if Sys.isapple()
+    using Metal
+else
+    using CUDA
+end
 
 # Our model is very simple: Its one "hidden layer" has 32 "neurons" each connected to every input pixel.
 # Each has a sigmoid nonlinearity, and is connected to every "neuron" in the output layer.
@@ -109,7 +113,7 @@ xtest, ytest = only(simple_loader(test_data, batchsize=length(test_data)));
 # ImageCore.Gray is a special type, which interprets numbers between 0.0 and 1.0 as shades:
 
 index = rand(1:100);
-reshape(xtest[:, index], 28, 28) .|> Gray |> transpose
+reshape(xtest[:, index] |> cpu, 28, 28) .|> Gray |> transpose
 
 @show Flux.onecold(ytest, 0:9)[index];  # true label, should match!
 
