@@ -81,7 +81,7 @@ opt_state = Flux.setup(Adam(3e-4), model)
 
 # Then train for 30 epochs, printing out details as we go:
 
-for epoch in 1:30
+@time for epoch in 1:30
     train_loss = 0.0
     for (x, y) in train_loader
         # Compute the loss and the gradients:
