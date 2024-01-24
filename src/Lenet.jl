@@ -5,7 +5,6 @@
 # And demonstrates how to save model state.
 
 using MLDatasets, Flux, JLD2, CUDA  # this will install everything if necc.
-using Metal
 
 folder = "runs"  # sub-directory in which to save
 isdir(folder) || mkdir(folder)

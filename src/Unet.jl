@@ -57,8 +57,6 @@ function (m::UpBlock)(x, bridge)
     # 第二种实现方式，使用pad
     diff_x = size(bridge, 1) - size(x, 1)
     diff_y = size(bridge, 2) - size(x, 2)
-    println("diff_x: $diff_x, diff_y: $diff_y")
-    println("before pad, size(x): $(size(x)), size(bridge): $(size(bridge))")
     if diff_x == 1
         x = Flux.pad_zeros(x, (0, 1, 0, 0), dims=[1, 2])
     end
@@ -66,8 +64,6 @@ function (m::UpBlock)(x, bridge)
         x = Flux.pad_zeros(x, (0, 0, 0, 1), dims=[1, 2])
     end
     x = Flux.pad_zeros(x, (diff_x ÷ 2, diff_x ÷ 2, diff_y ÷ 2, diff_y ÷ 2), dims=[1, 2])
-    println("after pad, size(x): $(size(x)), size(bridge): $(size(bridge))")
-
     return cat(x, bridge, dims=3)
 end
 
@@ -123,7 +119,3 @@ function (m::Unet)(x::AbstractArray)
     up_x4 = m.up_blocks[8](up_x4)
     return m.up_blocks[9](up_x4)
 end
-
-
-unet = Unet(3)
-unet(rand32(1050, 1213, 3, 1)) |> size
