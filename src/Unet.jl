@@ -9,10 +9,10 @@ using Flux: @functor
 # 1.1. 卷积块
 """(convolution => [BN] => ReLU) * 2"""
 DoubleConv(in_channels, out_channels) = Chain(
-    Conv((3, 3), in_channels => out_channels, pad=1),
+    Conv((3, 3), in_channels => out_channels, pad=1, bias=false),
     BatchNorm(out_channels),
     relu,
-    Conv((3, 3), out_channels => out_channels, pad=1),
+    Conv((3, 3), out_channels => out_channels, pad=1, bias=false),
     BatchNorm(out_channels),
     relu)
 
@@ -33,7 +33,7 @@ end
 
 UpBlock(in_channels::Int, out_channels::Int) =
     UpBlock(Chain(
-        ConvTranspose((2, 2), in_channels => out_channels, stride=2),
+        ConvTranspose((2, 2), in_channels => out_channels, stride=2, bias=false),
     ))
 
 function (m::UpBlock)(x, bridge)
@@ -69,7 +69,7 @@ end
 
 # 1.4. 最后一层卷积
 OutConv(in_channels::Int, out_channels::Int) =
-    Conv((1, 1), in_channels => out_channels)
+    Conv((1, 1), in_channels => out_channels, bias=false)
 
 # 2. 定义网络结构
 # 2.1. 定义U-net
@@ -117,5 +117,15 @@ function (m::Unet)(x::AbstractArray)
     up_x3 = m.up_blocks[6](up_x3)
     up_x4 = m.up_blocks[7](up_x3, op)
     up_x4 = m.up_blocks[8](up_x4)
+    # print every layer's size
+    println("op: $(size(op))")
+    println("x1: $(size(x1))")
+    println("x2: $(size(x2))")
+    println("x3: $(size(x3))")
+    println("x4: $(size(x4))")
+    println("up_x1: $(size(up_x1))")
+    println("up_x2: $(size(up_x2))")
+    println("up_x3: $(size(up_x3))")
+    println("up_x4: $(size(up_x4))")
     return m.up_blocks[9](up_x4)
 end
